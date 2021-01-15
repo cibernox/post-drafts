@@ -471,10 +471,15 @@ Do it and start using it!
 
 ## Wrapping up
 
-That's it, in a matter of hours we've create an app that lives on smart speakers and user machine learning to
+That's it, in a matter of hours we've create an app that lives on smart speakers and uses machine learning to
 understand voice commands and tell you the surf conditions on a beach of your choice.
 
 How cool is that? Just a few years ago building something similar in such little time looked that taken
-out of bad "hacker" movie.
+out of bad "hackers" movie.
 
-Recently I found myself creating custom skills to improve my smart home, allowing me to ask how until the laundry is done
+The process is so simple that recently I found myself creating custom skills to improve my smart
+home, allowing me to ask how much time's left until the laundry is done, what's the current price of
+the electricity and how much I'm consuming right now.
+
+I think that voice assistants will open a new market for companies and brands to add an alternate
+path for users to consume their services while driving or washing the dishes.
