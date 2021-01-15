@@ -62,45 +62,7 @@ I'm not going to show how I crunch the JSON data that this API returns as it's n
 Once you've logged into https://developers.amazon.com and clicked on the **Amazon Alexa** section of the dashboard, you will be in portal for Alexa developers. From there you can open the Alexa console what will take you to your list of skills.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ![Alexa Console](./list-of-skills.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 You click on the "Create Skill" button and choose a two-word name for the skill. That name will be _invocation_ of your skill, that is the key word you need to use so Alexa knows what skill you're invoking. More on that later.
@@ -112,85 +74,16 @@ Alexa-hosted is just a friendlier way of saying _AWS Lambda_.
 It's important to note that in here you can also choose the region. It's important to note that depending on the language you choose, some may not be available in all regions. For instance for european Spanish you should choose _EU (Ireland)_.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ![Create skill](./name-new-skill.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 In the next step you're going to select **Start from scratch**
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ![Choose template](./template-options.png)
 
 
-
-
-
-
-
-
-
-
-
-You have your skill created! Now we have to create an **Interaction model**. That is just a fancy
+You have your skill created! Now we have to create an **Interaction model**.
 
 ## Second step: Create your interaction model.
 
@@ -203,34 +96,7 @@ Let's see it with an example.
 We want to create an _intent_ for when the user wants to check the sea status right now on a specific beach. Following conventions it should be camel-cased and end in **Intent** so we're going to name it **GetCurrentWavesByBeachNameIntent**.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ![Current wave status intent](./get-current-waves-by-breach-name-intent.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 Inside the intent is where you add examples what users could say to trigger this intent. Those are called **Utterances**.
@@ -246,41 +112,7 @@ For now our `{{beachName}}` slot has no type associated, and it needs one.
 Since Alexa doesn't has a built in slot type for all the names of the 873 galician beaches, we can always create our own slot type and populate it with all the possible options:
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ![Custom slot type](./custom-slot-type.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 If you only have a few values you can populate it using the UI, but if you have hundreds like in this case it's far more convenient to upload a CSV file, which I crafted using the data from the forecast API and uploaded using the **Bulk Edit** option. Once the slot type is created you can assign to the slots you created on the previous step.
@@ -289,27 +121,7 @@ Slots teach Alexa how to recognize words like names or places are not part of an
 That's it, now we can click **Save** and **Build Model** on the top menu and once it has finished click on the **Evaluate Model** to give it a go.
 
 
-
-
-
-
-
-
 ![Evaluate Model](./evaluate-model.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 On the _Utterance profiler_ you can type a sentence and check what _intent_ Alexa recognized the value
@@ -323,37 +135,7 @@ To write the code we're not even going to spin up our preferred code editor yet,
 top menu which will take us to a online code editor with an already functional template code.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ![Skill code template](./skill-code-template.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 The code is easy to grasp. There are a bunch of objects all ending on `Handler`, one for each
@@ -384,12 +166,12 @@ function getWaves(beachName) {
 }
 
 function generateWaveStatusSentence(prediction) {
-    // Boring code extract meannful data from a forecast.
+    // Boring code extract meaningful data from a forecast.
     return `${waveHeight} meters from the ${direction}`;
 }
 
 function getPredition(data, date) {
-    // Boring JSON crunching to the the prediction for the given moment.
+    // Boring JSON crunching to extract the prediction for the given moment.
 }
 
 const GetCurrentWavesByBeachNameIntentHandler = {
@@ -408,7 +190,7 @@ const GetCurrentWavesByBeachNameIntentHandler = {
     }
 };
 
-// ...
+// ... keep all the default handlers unchanged unless you have a good reason not to.
 
 exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
@@ -443,7 +225,7 @@ If you need to install third party libraries like I did with `node-fetch` you ad
 on the `package.json` like on any Node.js project and AWS will take care of installing them when you deploy.
 
 
-## Final step: Deploy, test and publish.
+## Final step: Deploy, test and install.
 
 The deploy part is very simple. Click the **Deploy** button on the top-right corner of the screen above the code editor.
 
@@ -452,9 +234,9 @@ To test the app we go to the **Test** tab on the top menu.
 ![Test UI](./test-ui.png)
 
 You can either type or use the microphone and Alexa will respond. You also have nice panels to see the parsed input
-sent to your lambda function and the response returned by it, which can come handy sometimes.
+sent to your lambda function and the response returned by it which can be handy sometimes.
 
-Note that unlike the **Evaluate Model** interface you used while creating your voice model, in here you have to type (or speak)
+Note that unlike the **Evaluate Model** interface you used while creating your voice model in this test interface you have to type (or speak)
 the _invocation_ of your skill.
 
 You don't just say _How are the waves in Bastiagueiro today_, but `_Ask surf assistant how are the waves in Bastiagueiro today_.
@@ -464,8 +246,10 @@ this requirement but for now is not available in all languages and regions.
 
 The last step is to install your skill into your Alexa account, which should make it available on all your Alexa devices.
 
-You can do it on https://alexa.amazon.com, going to to **Skills** menu, then to **My Skills** and then to **Developer Skills**,
-where you will see **Surf Assistant** ready to be installed.
+You can do it on https://alexa.amazon.com, going to to **Skills** menu, then to **My Skills** and then to **Developer Skills** where you will see your custom skills ready to be installed.
+
+![Apple mobile app](./alexa-app.png)
+
 
 Do it and start using it!
 
